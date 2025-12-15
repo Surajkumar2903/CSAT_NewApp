@@ -96,8 +96,8 @@ final class CSATViewModel: ObservableObject {
 
         case 2:
             return [
-                "Slow or unresponsive",
-                "Not easy to use"
+                "Features felt limited",
+                "Too many steps to complete a task"
             ]
 
         case 3:
