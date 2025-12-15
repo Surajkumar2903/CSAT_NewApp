@@ -9,9 +9,18 @@ import SwiftUI
 
 @main
 struct CSAT_NewAppApp: App {
+
+    @State private var hasCompletedOnboarding = false
+
     var body: some Scene {
         WindowGroup {
-            StartView()
+            if hasCompletedOnboarding {
+                StartView()
+            } else {
+                IntroView(hasCompletedOnboarding: $hasCompletedOnboarding)
+                    .environment(\.colorScheme, .dark)
+            }
         }
     }
 }
+
