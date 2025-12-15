@@ -11,7 +11,6 @@ struct CSATHostView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
 
-            // 1️⃣ Background content (UNCHANGED)
             VStack(spacing: 12) {
                 Image(systemName: "gamecontroller.fill")
                     .resizable()
@@ -38,14 +37,12 @@ struct CSATHostView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
-            // 2️⃣ CSAT Overlay (UNCHANGED)
             if viewModel.isVisible {
                 CSATView(viewModel: viewModel)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                     .animation(.easeInOut, value: viewModel.isVisible)
             }
-
-            // 3️⃣ ✅ CONFETTI OVERLAY (ADD ONLY THIS)
+            
             if viewModel.showConfetti {
                 ConfettiView()
                     .transition(.opacity)

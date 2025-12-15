@@ -68,7 +68,6 @@ struct CSATView: View {
                             viewModel.closeCompletely()
                         }
                     } else {
-                        // Feedback in progress → ask confirmation
                         showCloseAlert = true
                     }
             })

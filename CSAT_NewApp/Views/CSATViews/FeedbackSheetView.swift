@@ -63,8 +63,7 @@ struct FeedbackSectionView: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color.gray.opacity(0.3))
         )
-        
-        
+    
         // SUBMIT CTA
         Button {
             viewModel.submit()
