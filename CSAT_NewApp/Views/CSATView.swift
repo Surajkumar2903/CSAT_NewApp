@@ -38,7 +38,6 @@ struct CSATView: View {
                     FeedbackSectionView(viewModel: viewModel)
                 }
             }
-            
         }
         .alert("Discard feedback?", isPresented: $showCloseAlert) {
             Button("Discard", role: .destructive) {
@@ -68,16 +67,12 @@ struct CSATView: View {
                             viewModel.closeCompletely()
                         }
                     } else {
-                        // Feedback in progress → ask confirmation
+                        
                         showCloseAlert = true
                     }
             })
-
                 .padding(12)
         }
-        
         .padding()
     }
-
-
 }
