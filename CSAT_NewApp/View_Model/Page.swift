@@ -9,28 +9,28 @@ import SwiftUI
 
 enum Page: String, CaseIterable{
     case page1 = "gamecontroller.fill"
-    case page2 = "link.icloud.fill"
-    case page3 = "text.bubble.fill"
+    case page2 = "star.bubble.fill"
+    case page3 = "sparkles.rectangle.stack.fill"
 
     var Ptitle: String {
         switch self {
         case .page1:
-            return "Game Controller"
+            return "Play & Explore"
         case .page2:
-            return "iCloud"
+            return "Share Your Feedback"
         case .page3:
-            return "Text Bubble"
+            return "Feel the Delight"
         }
     }
     
     var subTitle: String {
         switch self {
         case .page1:
-            return "Connect your game controller to your device"
+            return "Enjoy an interactive experience designed to feel smooth, fun, and intuitive"
         case .page2:
-            return "Connect your device to the internet"
+            return "Your feedback helps us improve. Rate your experience and tell us what you think."
         case .page3:
-            return "Use the text bubble to share your score"
+            return "Celebrate your input with delightful animations that make every action rewarding."
         }
     }
     

@@ -38,10 +38,7 @@ struct MorphingSymbolView: View {
             trigger.toggle()
             nextSymbol = newValue
         }
-//        .task {
-//            guard displayingSymbol == "" else { return }
-//            displayingSymbol = symbol
-//        }
+
     }
     
     @ViewBuilder

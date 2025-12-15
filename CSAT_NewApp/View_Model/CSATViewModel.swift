@@ -90,8 +90,8 @@ final class CSATViewModel: ObservableObject {
         switch rating {
         case 1:
             return [
-                "Very frustrating",
-                "App did not work properly"
+                "Could not complete my task",
+                "Very frustrating experience"
             ]
 
         case 2:
@@ -103,7 +103,7 @@ final class CSATViewModel: ObservableObject {
         case 3:
             return [
                 "Average experience",
-                "Could be better"
+                "Some features worked well"
             ]
 
         case 4:
