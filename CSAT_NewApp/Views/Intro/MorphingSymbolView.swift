@@ -63,8 +63,7 @@ struct MorphingSymbolView: View {
 
             
     }
-    
-    
+        
     struct Config{
         var font : Font
         var frame : CGSize
