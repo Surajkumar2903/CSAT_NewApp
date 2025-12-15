@@ -90,20 +90,20 @@ final class CSATViewModel: ObservableObject {
         switch rating {
         case 1:
             return [
-                "Very frustrating",
-                "App did not work properly"
+                "Could not complete my task",
+                "Very frustrating experience"
             ]
 
         case 2:
             return [
-                "Slow or unresponsive",
-                "Not easy to use"
+                "Features felt limited",
+                "Too many steps to complete a task"
             ]
 
         case 3:
             return [
                 "Average experience",
-                "Could be better"
+                "Some features worked well"
             ]
 
         case 4:
@@ -122,7 +122,6 @@ final class CSATViewModel: ObservableObject {
             return []
         }
     }
-
 
     func submit() {
         logFeedback(source: "Submit Button")
