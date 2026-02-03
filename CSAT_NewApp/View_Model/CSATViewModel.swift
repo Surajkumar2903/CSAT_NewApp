@@ -5,19 +5,36 @@
 //  Created by Suraj Kumar on 15/12/25.
 //
 
+//
+//  CSATViewModel.swift
+//  CSAT_NewApp
+//
+//  Created by Suraj Kumar on 15/12/25.
+//
+
 import SwiftUI
-internal import Combine
+import Combine
+
 final class CSATViewModel: ObservableObject {
- 
+
+    // MARK: - Visibility & UI State
+
     @Published var isVisible: Bool = false
+
     @Published var state: State = .collapsed
+
     private var thankYouTask: DispatchWorkItem?
     private var autoThankYouTask: DispatchWorkItem?
 
+    // MARK: - User Input
+
     @Published var selectedQuickOption: String? = nil
-    @Published var Comment = ""
+
+    @Published var Comment: String = ""
+
     @Published var showConfetti: Bool = false
 
+    // MARK: - CSAT State Enum
 
     enum State {
         case collapsed
@@ -25,32 +42,36 @@ final class CSATViewModel: ObservableObject {
         case thankYou
     }
 
+    // MARK: - Rating Handling
+
     @Published var rating: Int = 0 {
         didSet {
             guard rating > 0 else { return }
 
+            // Expand feedback section when a rating is selected
             withAnimation {
                 state = .expanded
             }
-            
+
+            // Auto-submit flow for positive feedback (4–5 stars)
             if rating > 3 {
                 logFeedback(source: "Auto (Rating > 3)")
 
-                // Cancel any previous auto flow
+                // Cancel any previous auto transitions
                 autoThankYouTask?.cancel()
 
-                // 1️⃣ Start confetti immediately
+                // Show confetti immediately
                 showConfetti = true
 
                 let task = DispatchWorkItem { [weak self] in
                     guard let self else { return }
 
-                    // 2️⃣ Move to Thank You AFTER confetti is visible
+                    // Transition to Thank You screen
                     withAnimation(.easeInOut(duration: 0.45)) {
                         self.state = .thankYou
                     }
 
-                    // 3️⃣ Stop confetti AFTER Thank You is stable
+                    // Stop confetti after Thank You is stable
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
                         self.showConfetti = false
                     }
@@ -58,17 +79,13 @@ final class CSATViewModel: ObservableObject {
 
                 autoThankYouTask = task
 
-                // Small intentional pause (prevents race)
+                // Small intentional delay to avoid animation race
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: task)
             }
-
-
-
-
         }
     }
 
-
+    // MARK: - Thank You Scheduling
 
     private func scheduleThankYou() {
         thankYouTask?.cancel()
@@ -83,27 +100,27 @@ final class CSATViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6, execute: task)
     }
 
-
-
-
+    // MARK: - Quick Feedback Options
+    
     func quickOptions(for rating: Int) -> [String] {
         switch rating {
+
         case 1:
             return [
-                "Very frustrating",
-                "App did not work properly"
+                "Could not complete my task",
+                "Very frustrating experience"
             ]
 
         case 2:
             return [
-                "Slow or unresponsive",
-                "Not easy to use"
+                "Features felt limited",
+                "Too many steps to complete a task"
             ]
 
         case 3:
             return [
                 "Average experience",
-                "Could be better"
+                "Some features worked well"
             ]
 
         case 4:
@@ -123,16 +140,17 @@ final class CSATViewModel: ObservableObject {
         }
     }
 
+    // MARK: - Submit Actions
 
     func submit() {
         logFeedback(source: "Submit Button")
 
-        // Move to thank-you immediately
+        // Transition immediately to Thank You
         withAnimation(.smooth(duration: 0.35)) {
             state = .thankYou
         }
 
-        // Confetti over thank-you
+        // Play confetti animation
         showConfetti = true
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
@@ -140,14 +158,13 @@ final class CSATViewModel: ObservableObject {
         }
     }
 
+    // MARK: - Dismiss / Reset
 
-
-    
     func dismiss() {
         thankYouTask?.cancel()
         state = .collapsed
     }
-    
+
     func closeCompletely() {
         thankYouTask?.cancel()
 
@@ -155,10 +172,9 @@ final class CSATViewModel: ObservableObject {
         selectedQuickOption = nil
         Comment = ""
         state = .collapsed
-
         isVisible = false
     }
-    
+
     func showCSAT() {
         rating = 0
         selectedQuickOption = nil
@@ -166,7 +182,7 @@ final class CSATViewModel: ObservableObject {
         state = .collapsed
         isVisible = true
     }
-    
+
     func showCSATWithDelay(_ delay: Double = 1.5) {
         isVisible = false
 
@@ -177,9 +193,9 @@ final class CSATViewModel: ObservableObject {
             }
         }
     }
-    
-    
-    
+
+    // MARK: - Debug / Logging
+
     func logFeedback(source: String) {
         print("----- CSAT Feedback (\(source)) -----")
         print("Stars Selected: \(rating)")
@@ -198,7 +214,4 @@ final class CSATViewModel: ObservableObject {
 
         print("-----------------------------------")
     }
-
-
-    
 }
